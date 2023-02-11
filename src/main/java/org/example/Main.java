@@ -73,7 +73,7 @@ public class Main {
                 if (isp1) {
                    l.log(Level.INFO,() -> p1 + " turn");
                 } else {
-                    l.info(p2 + " turn");
+                    l.log(Level.INFO,() -> p2 + " turn");
                 }
                 l.info("Enter the row position");
                 int r = sc.nextInt();
@@ -88,11 +88,11 @@ public class Main {
                 char win = won(board);
                 boolean tie = tied(board);
                 if (win == 'x') {
-                    l.info(p1 + "have won");
+                    l.log(Level.INFO,() -> p1 + "have won");
                     gameended = true;
                     stop = 0;
                 } else if (win == 'o') {
-                    l.info(p2 + " have won");
+                     l.log(Level.INFO,() -> p2 + " have won");
                     gameended = true;
                     stop = 0;
                 } else if (tie) {
