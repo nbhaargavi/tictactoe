@@ -1,14 +1,15 @@
 package org.example;
 import java.util.Scanner;
 import java.util.logging.*;
-import java.util.logging.Logger.*;
 public class Main {
-
     static void draw(char[][] board) {
-        Logger l=Logger.getLogger("kitty");
+        Logger l = Logger.getLogger("kitty");
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                System.out.print(board[i][j]);
+                int finalI = i;
+                int finalJ = j;
+                l.log(Level.INFO,() -> String.valueOf((board[finalI][finalJ])));
             }
             System.out.println();
         }
@@ -43,64 +44,68 @@ public class Main {
         return true;
     }
     public static void main(String[] args) {
-        Logger l=Logger.getLogger("kitty");
-        Scanner sc = new Scanner(System.in);
-        l.info("Enter player 1 name");
-        String p1 = sc.nextLine();
-        l.info("Enter player 2 name");
-        String p2 = sc.nextLine();
-        int stop=1;
-        char[][] board = new char[3][3];
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                board[i][j] = '-';
+            int a = 0;
+        do {
+            Logger l = Logger.getLogger("kitty");
+            Scanner sc = new Scanner(System.in);
+            l.info("Enter player 1 name");
+            String p1 = sc.nextLine();
+            l.info("Enter player 2 name");
+            String p2 = sc.nextLine();
+            int stop = 1;
+            char[][] board = new char[3][3];
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    board[i][j] = '-';
+                }
             }
-        }
-        boolean isp1 = true;
-        boolean gameended = false;
+            boolean isp1 = true;
+            boolean gameended = false;
 
-        while (!gameended && stop==1) {
+            while (!gameended && stop == 1) {
 
-            char symbol;
-            if (isp1) {
-                symbol = 'x';
-            } else {
-                symbol = 'o';
+                char symbol;
+                if (isp1) {
+                    symbol = 'x';
+                } else {
+                    symbol = 'o';
+                }
+                if (isp1) {
+                    l.info(p1 + " turn");
+                } else {
+                    l.info(p2 + " turn");
+                }
+                l.info("Enter the row position");
+                int r = sc.nextInt();
+                l.info("Enter the column position");
+                int c = sc.nextInt();
+                if (r > 2 || c > 2 || r < 0 || c < 0) {
+                    l.info("Invalid input");
+                    continue;
+                } else {
+                    board[r][c] = symbol;
+                }
+                char win = won(board);
+                boolean tie = tied(board);
+                if (win == 'x') {
+                    l.info(p1 + "have won");
+                    gameended = true;
+                    stop = 0;
+                } else if (win == 'o') {
+                    l.info(p2 + " have won");
+                    gameended = true;
+                    stop = 0;
+                } else if (tie) {
+                    l.info("Match tied ");
+                    gameended = true;
+                    stop = 0;
+                } else {
+                    isp1 = !isp1;
+                }
+                draw(board);
             }
-            if (isp1) {
-                l.info("p1 turn");
-            } else {
-                l.info("p2 turn");
-            }
-            l.info("Enter the row position");
-            int r = sc.nextInt();
-            l.info("Enter the column position");
-            int c = sc.nextInt();
-            if (r > 2 || c > 2 || r < 0 || c < 0) {
-                l.info("invalid input");
-                continue;
-            } else {
-                board[r][c] = symbol;
-            }
-            char win = won(board);
-            boolean tie =tied(board);
-            if (win == 'x') {
-                l.info("player 1 have won");
-                gameended = true;
-                stop=0;
-            } else if (win == 'o') {
-                l.info("player 2 have won");
-                gameended = true;
-               stop=0;
-            } else if(tie){
-                l.info("Match tied ");
-                gameended = true;
-                stop=0;
-            }
-            else {
-                isp1=!isp1;
-            }
-            draw(board);
-        }
+            l.info("Press 1 for continue playing ");
+            a = sc.nextInt();
+        }while (a == 1);
     }
 }
