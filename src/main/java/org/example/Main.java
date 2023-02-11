@@ -71,7 +71,7 @@ public class Main {
                     symbol = 'o';
                 }
                 if (isp1) {
-                    l.info(p1 + " turn");
+                   l.log(Level.INFO,() -> p1 + " turn");
                 } else {
                     l.info(p2 + " turn");
                 }
