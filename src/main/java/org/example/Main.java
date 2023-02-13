@@ -3,13 +3,9 @@ import java.util.Scanner;
 import java.util.logging.*;
 public class Main {
     static void draw(char[][] board) {
-        Logger l = Logger.getLogger("kitty");
-
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                int finalI = i;
-                int finalJ = j;
-                l.log(Level.INFO,() -> String.valueOf((board[finalI][finalJ])));
+                System.out.print((board[i][j]));
             }
             System.out.println();
         }
@@ -43,8 +39,11 @@ public class Main {
         }
         return true;
     }
+    static boolean check(int c, int r){
+        return (r > 2 || c > 2 || r < 0 || c < 0);
+    }
     public static void main(String[] args) {
-            int a = 0;
+        int a = 0;
         do {
             Logger l = Logger.getLogger("kitty");
             Scanner sc = new Scanner(System.in);
@@ -71,15 +70,15 @@ public class Main {
                     symbol = 'o';
                 }
                 if (isp1) {
-                   l.log(Level.INFO,() -> p1 + " turn");
+                    l.log(Level.INFO,() -> p1 + " turn");
                 } else {
-                    l.log(Level.INFO,() -> p2 + " turn");
+                    l.info(p2 + " turn");
                 }
                 l.info("Enter the row position");
                 int r = sc.nextInt();
                 l.info("Enter the column position");
                 int c = sc.nextInt();
-                if (r > 2 || c > 2 || r < 0 || c < 0) {
+                if (check(r,c)) {
                     l.info("Invalid input");
                     continue;
                 } else {
@@ -88,11 +87,11 @@ public class Main {
                 char win = won(board);
                 boolean tie = tied(board);
                 if (win == 'x') {
-                    l.log(Level.INFO,() -> p1 + "have won");
+                    l.info(p1 + "have won");
                     gameended = true;
                     stop = 0;
                 } else if (win == 'o') {
-                     l.log(Level.INFO,() -> p2 + " have won");
+                    l.info(p2 + " have won");
                     gameended = true;
                     stop = 0;
                 } else if (tie) {
