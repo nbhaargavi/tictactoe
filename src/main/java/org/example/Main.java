@@ -2,12 +2,15 @@ package org.example;
 import java.util.Scanner;
 import java.util.logging.*;
 public class Main {
+    static Logger l = Logger.getLogger("kitty");
     static void draw(char[][] board) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                System.out.print((board[i][j]));
+                int finalI = i;
+                int finalJ = j;
+                l.log(Level.INFO,() ->""+(board[finalI][finalJ]));
             }
-            System.out.println();
+            l.info("");
         }
     }
     public static char won(char[][] board) {
@@ -72,13 +75,13 @@ public class Main {
                 if (isp1) {
                     l.log(Level.INFO,() -> p1 + " turn");
                 } else {
-                    l.info(p2 + " turn");
+                    l.log(Level.INFO,() -> p2 + " turn");
                 }
                 l.info("Enter the row position");
                 int r = sc.nextInt();
                 l.info("Enter the column position");
                 int c = sc.nextInt();
-                if (check(r,c)) {
+                if (check(c,r)) {
                     l.info("Invalid input");
                     continue;
                 } else {
@@ -87,11 +90,11 @@ public class Main {
                 char win = won(board);
                 boolean tie = tied(board);
                 if (win == 'x') {
-                    l.info(p1 + "have won");
+                    l.log(Level.INFO,() ->p1 + "have won");
                     gameended = true;
                     stop = 0;
                 } else if (win == 'o') {
-                    l.info(p2 + " have won");
+                    l.log(Level.INFO,() ->p2 + " have won");
                     gameended = true;
                     stop = 0;
                 } else if (tie) {
@@ -108,3 +111,4 @@ public class Main {
         }while (a == 1);
     }
 }
+
